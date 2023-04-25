@@ -1,0 +1,54 @@
+library ieee;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use ieee.NUMERIC_STD.all;
+entity lab1_seq_top is
+	generic (
+		Clk_div     : integer := 25_000_000
+		);
+ Port ( 
+ 	clk : in  STD_LOGIC;
+ 	reset : in  STD_LOGIC;
+    enable : in  STD_LOGIC;
+    data_i : in  std_logic_vector( 7 downto 0 );
+    h_o: out std_logic_vector(6 downto 0)			;				
+    output_s : out  STD_LOGIC);
+end entity lab1_seq_top;
+architecture behavioral of lab1_seq_top is
+signal data_w : std_logic;
+signal clk_out : std_logic;
+signal out_w : std_logic;
+signal h_w    :std_logic_vector(3 downto 0);
+begin
+	output_s<=out_w;
+	clock_divider_1 : entity work.clock_divider
+		generic map (
+		Clk_div    =>Clk_div)
+		port map (
+			clk_50MHz => clk,
+			rst       => reset,
+			clk_out   => clk_out
+		);
+overlap_sequence_detector_1 : entity work.overlap_sequence_detector
+	port map (
+		clk       => clk_out,
+		reset     => reset,
+		input_bit => data_w,
+		output_s  => out_w
+	);
+lab1_seq_data_1 : entity work.lab1_seq_data
+		port map (
+			clk    => clk_out,
+			reset  => reset,
+			enable => enable,
+			data_i => data_i,
+			data_o => data_w
+		);
+		h_w<="000"&out_w;
+		
+	hex_encoder_1 : entity work.hex_encoder
+		port map (
+			vin  => h_w,
+			hout => h_o
+		);
+end architecture behavioral;

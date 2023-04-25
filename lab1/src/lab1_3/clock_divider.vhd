@@ -1,0 +1,33 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+entity clock_divider is
+    generic (
+        Clk_div     : integer := 25_000_000
+    );
+    Port ( clk_50MHz : in STD_LOGIC;
+            rst       : in STD_LOGIC;
+           clk_out : out STD_LOGIC);
+end clock_divider;
+architecture Behavioral of clock_divider is
+    signal count : unsigned(24 downto 0) := (others => '0');
+     signal clok_r:STD_LOGIC              :='0'             ;
+    -- 24-bit counter for dividing 50 MHz clock to 0.5 Hz
+begin
+clk_out          <=clok_r;
+    process(clk_50MHz)
+    begin
+        if rising_edge(clk_50MHz) then
+            if(rst='1') then
+               count <= (others => '0'); -- reset counter
+                clok_r<= '0';
+              else  
+            count <= count + 1;
+            if count = Clk_div then -- divide by 50,000,000 / 25,000,000 = 2
+                clok_r <= not clok_r; -- toggle output clock
+                count <= (others => '0'); -- reset counter
+            end if;
+              end if;
+        end if;
+    end process;
+end Behavioral;
