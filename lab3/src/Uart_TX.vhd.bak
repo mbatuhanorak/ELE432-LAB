@@ -1,0 +1,37 @@
+/*
+1. Rx ve Tx modüllerine sahip UART protokolü tasarlanacaktır.
+2. Baudrate, Parity, Stop bit, Datawidth generic tasarlanacaktır.
+3. Varsayılanda
+1. Baudrate:            115200
+2. Parity:                  None
+3. Stop bit:               1
+4. Data width:         8 olacaktır
+4. Top modülde Rx_I(1), Tx_O(1), Busy_O(1), Enable_I(1), Data_I(8), Ready_O(1), Data_O(8)
+pinleri olacaktır.
+5. Rx hattı tasarım dışından gelen veriyi alacaktır
+6. Tx hattı tasarım dışına veri göndermek için kullanılacaktır.
+7. Busy_O UART bloğu veri gönderme işlemi yapıyor ise high olacaktır. Bu esnada başka
+gönderme işlemi yapılmayacaktır.
+8. Enable_I tasarım içinden gönderilecek DATA_I pinindeki verinin hazır olduğunu gösterir.
+1 clock high sürülür.
+9. Data_I diğer bloklar tarafından UART bloğu ile tasarım dışına gönderilecek veridir.
+10. Ready_O, diğer bloklara iletecek veri hazır olduğunda high sürülecektir.
+11. Data_O, tasarım dışından RX hattı ile UART bloğuna gelip diğer bloklara iletecek veridir.
+*/
+entity Uart_TX is
+port
+	(
+	
+	);
+end Uart_TX;
+
+
+architecture Rtl of Uart_TX is
+
+
+begin
+
+
+
+end Rtl;
+
